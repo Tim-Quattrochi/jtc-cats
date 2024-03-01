@@ -2,30 +2,76 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: #d4bfd9;
+}
+
 h1 {
   text-align: center;
 }
 
+.catCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1em;
+  padding: 1em;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 .catPic {
-  width: 100%;
-  height: 100%;
+  width: 400px;
+  height: 330px;
   object-fit: cover;
+  padding: 1em;
   border-radius: 10px;
 }
 
 .imgContainer {
-  width: 50%;
-  height: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 310px;
   border-radius: 10px;
   overflow: hidden;
 }
 
 .getCat {
-  background-color: #4caf50;
-  width: 50px;
-  height: 40px;
-  border-radius: 5px;
+  align-items: center;
+  background-clip: padding-box;
+  background-color: #fa6400;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  min-height: 3rem;
+  padding: calc(0.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.getCat:hover,
+.getCat:focus {
+  background-color: #fb8332;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+.getCat:hover {
+  transform: translateY(-1px);
+}
+
+.getCat:active {
+  background-color: #c85000;
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  transform: translateY(0);
 }
