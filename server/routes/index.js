@@ -4,10 +4,10 @@ const fs = require("fs");
 const router = Router();
 
 /**
- * GET /api/create/:breed
+ * GET /api/cats/:breed
  * @param req.params.breed - the breed of the cat
  */
-router.get("/create/:breed", (req, res) => {
+router.get("/cats/:breed", (req, res) => {
   const { breed } = req.params;
   const options = {
     headers: {
@@ -19,6 +19,7 @@ router.get("/create/:breed", (req, res) => {
    * Check if the breed is already saved in the "cats" dir
    * If yes, send the data from the file
    * If not, call the getCat function
+   * @param {Express.Response} res
    */
   const checkForBreed = (res) => {
     fs.readdir("./cats", (err, files) => {

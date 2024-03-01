@@ -32,7 +32,7 @@ async function getCat(e) {
   e.preventDefault();
 
   const response = await fetch(
-    `http://localhost:3001/api/create/${randomBreed[makeItRandom()]}`
+    `http://localhost:3001/api/cats/${randomBreed[makeItRandom()]}`
   );
 
   //refresh the elements
