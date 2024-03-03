@@ -67,4 +67,65 @@ router.get("/cats/:breed", (req, res) => {
   checkForBreed(res);
 });
 
+router.put("/cats/:id", (req, res) => {
+  console.log("REQ BODY:", req.body);
+  const { id } = req.params;
+  const { name } = req.body; // nickname
+
+  //find cat by id and change the name
+  fs.readdir("./cats", (err, files) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Server error" });
+    } else {
+      let found = false;
+      files.forEach((file) => {
+        const data = fs.readFileSync(`./cats/${file}`);
+        const persistedCat = JSON.parse(data);
+
+        if (persistedCat[0]["image"]["id"] === id) {
+          persistedCat[0]["nickName"] = name;
+          fs.writeFileSync(
+            `./cats/${file}`,
+            JSON.stringify(persistedCat)
+          );
+          found = true;
+          return res.status(200).send(persistedCat);
+        }
+      });
+
+      if (!found) {
+        return res.status(404).json({ message: "Cat not found" });
+      }
+    }
+  });
+});
+
+router.delete("/cats/:id", (req, res) => {
+  const { id } = req.params;
+
+  fs.readdir("./cats", (err, files) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Server error" });
+    } else {
+      let found = false;
+      files.forEach((file) => {
+        const data = fs.readFileSync(`./cats/${file}`);
+        const persistedCat = JSON.parse(data);
+
+        if (persistedCat[0]["image"]["id"] === id) {
+          fs.unlinkSync(`./cats/${file}`);
+          found = true;
+          return res.status(200).json({ message: "Cat deleted" });
+        }
+      });
+
+      if (!found) {
+        return res.status(404).json({ message: "Cat not found" });
+      }
+    }
+  });
+});
+
 module.exports = router;
