@@ -1,4 +1,4 @@
-import { refreshHTML } from "./helpers.js";
+import { refreshHTML, randomBreed } from "./helpers.js";
 
 //elements
 const btn = document.querySelector(".getCat");
@@ -7,22 +7,6 @@ const form = document.querySelector("form");
 const catCard = document.querySelector(".catCard");
 const title = document.createElement("h2");
 const descr = document.createElement("p");
-
-const randomBreed = [
-  "siberian",
-  "bengal",
-  "siamese",
-  "ragdoll",
-  "persian",
-  "main",
-  "scottish",
-  "british",
-  "abyssinian",
-  "burmese",
-  "himalayan",
-  "russian",
-  "munchkin",
-];
 
 function makeItRandom() {
   return Math.floor(Math.random() * randomBreed.length);
