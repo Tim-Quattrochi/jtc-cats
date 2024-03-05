@@ -84,20 +84,10 @@ form {
   transform: translateY(0);
 }
 
-input {
-  background-color: #fff;
-  border: 1px solid #000;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 5px;
-  width: 100px;
-  text-align: center;
-}
-
-.delete {
+.addToCollection {
   align-items: center;
   background-clip: padding-box;
-  background-color: #fa0000;
+  background-color: #0fbd1d;
   border: 1px solid transparent;
   border-radius: 0.25rem;
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
@@ -115,20 +105,14 @@ input {
   width: auto;
 }
 
-.delete:hover,
-.delete:focus {
-  background-color: #f04620;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
-}
-
-.delete:hover {
-  transform: translateY(-1px);
-}
-
-.delete:active {
-  background-color: #f7e3e3;
-  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
-  transform: translateY(0);
+input {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
+  width: 100px;
+  text-align: center;
 }
 
 .toast {
@@ -153,18 +137,33 @@ input {
 }
 
 .previewContainer {
+  position: relative;
   height: 300px;
   width: auto;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 0.5rem;
 }
 
 .previewCat {
-  margin: 5em 1em 1em 1em;
+  margin: 1em;
   max-height: 100%;
   padding: 1em;
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.previewDelete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5em;
+  margin: 0.5em;
+  background-color: #ff0000;
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
