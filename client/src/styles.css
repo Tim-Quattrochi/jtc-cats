@@ -130,3 +130,41 @@ input {
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
   transform: translateY(0);
 }
+
+.toast {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 1em;
+  margin: 1em;
+  background-color: #fadd00;
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.toast-error {
+  background-color: #ff0000;
+}
+
+.toast-success {
+  background-color: #13d513;
+}
+
+.previewContainer {
+  height: 300px;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.previewCat {
+  margin: 5em 1em 1em 1em;
+  max-height: 100%;
+  padding: 1em;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

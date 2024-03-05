@@ -1,4 +1,8 @@
-import { refreshHTML, randomBreed } from "./helpers.js";
+import {
+  refreshHTML,
+  randomBreed,
+  showAToast,
+} from "./utils/helpers.js";
 
 //elements
 const saveBtn = document.querySelector("#save");
@@ -8,10 +12,38 @@ const catCard = document.querySelector(".catCard");
 const title = document.querySelector(".breedName");
 const deleteBtn = document.querySelector(".delete");
 const descr = document.createElement("p");
+const previewContainer = document.createElement("aside");
 
-let input, catId, changed;
+let input, catId;
 
 let cats = 0;
+
+let catsIdFetched = [];
+
+function loopAndRender() {
+  refreshHTML(previewContainer);
+  for (let i = 0; i < catsIdFetched.length; i++) {
+    previewContainer.classList.add("previewContainer");
+    let img = document.createElement("img");
+    img.src = catsIdFetched[i].url;
+    img.alt = catsIdFetched[i].name;
+    img.classList.add("previewCat");
+    img.addEventListener("click", deleteCat);
+    document.body.append(previewContainer);
+    previewContainer.append(img);
+  }
+}
+
+function whichCatsHaveBeenFetched(cat, forDelete = false) {
+  if (!forDelete) {
+    catsIdFetched.push(cat);
+  } else {
+    catsIdFetched = catsIdFetched.filter(
+      (catObj) => catObj.id !== cat.id
+    );
+  }
+  loopAndRender();
+}
 
 function makeItRandom() {
   return Math.floor(Math.random() * randomBreed.length);
@@ -19,25 +51,45 @@ function makeItRandom() {
 
 async function deleteCat(e) {
   e.preventDefault();
-  const { data } = await fetch(
-    `http://localhost:3001/api/cats/${catId}`,
-    {
-      method: "DELETE",
-    }
-  );
+  e.stopPropagation();
 
-  console.log(data);
+  try {
+    const response = await fetch(
+      `http://localhost:3001/api/cats/${catId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (response.status === 200) {
+      cats--;
+      whichCatsHaveBeenFetched(catId, true);
+
+      loopAndRender();
+
+      showAToast("Cat deleted", "success");
+
+      await getCat(e);
+    } else {
+      showAToast("Cat not deleted", "error");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    showAToast("Cat not deleted", "error");
+  }
 }
 
 async function getCat(e) {
   e.preventDefault();
+  e.stopPropagation();
+
+  cats++; //increment the cats fetched.
+  console.log(cats);
 
   const response = await fetch(
     `http://localhost:3001/api/cats/${randomBreed[makeItRandom()]}`
   );
 
-  cats++; //increment the cats fetched.
-  console.log(cats);
   //refresh the elements
   refreshHTML(title);
   refreshHTML(descr);
@@ -49,9 +101,11 @@ async function getCat(e) {
 
   const data = await response.json();
 
-  console.log(data);
+  console.log("RES: ", data);
 
   const { image, name, description, nickName } = data[0];
+
+  whichCatsHaveBeenFetched(image);
 
   title.textContent = nickName ? nickName : name;
 
@@ -60,10 +114,12 @@ async function getCat(e) {
 
   catId = image.id;
 
-  title.setAttribute("data-tooltip", "Click to give me a nickname");
-  title.setAttribute("data-placement", "top");
-
   catPic.src = image.url;
+
+  //if the cats gotten is greater than one then the user can delete.
+  if (cats > 0) {
+    deleteBtn.style.display = "inline";
+  }
 }
 
 saveBtn.addEventListener("click", function () {
@@ -121,11 +177,13 @@ function makeEditable(h1Id, buttonId) {
     }
   });
 }
-console.log(changed);
-if (changed) {
-  console.log("changed");
-}
+
+deleteBtn.addEventListener("click", deleteCat);
+
 makeEditable("editable1", "save");
+
+//first load.
+showAToast("Click 'Get a cat' to get your first cat", "success");
 
 //The user first visits the site.
 //They are greeted with a "Get a cat" button.
