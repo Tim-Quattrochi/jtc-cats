@@ -2,6 +2,9 @@ import {
   refreshHTML,
   randomBreed,
   showAToast,
+  makeItRandom,
+  whichCatsHaveBeenFetched,
+  createStyledElement,
 } from "./utils/helpers.js";
 
 //elements
@@ -10,72 +13,108 @@ const catPic = document.querySelector(".catPic");
 const form = document.querySelector("form");
 const catCard = document.querySelector(".catCard");
 const title = document.querySelector(".breedName");
-const deleteBtn = document.querySelector(".delete");
+
 const descr = document.createElement("p");
 const previewContainer = document.createElement("aside");
 
-let input, catId;
+const addToCollection = createStyledElement(
+  "button",
+  "addToCollection",
+  "Add to collection"
+);
 
-let cats = 0;
+let input,
+  catId,
+  catIdToDelete = [],
+  cats = 0;
 
 let catsIdFetched = [];
 
-function loopAndRender() {
+function loopAndRender(list) {
   refreshHTML(previewContainer);
-  for (let i = 0; i < catsIdFetched.length; i++) {
+  for (let i = 0; i < list.length; i++) {
+    let container = createStyledElement("div", "previewContainer");
+
     previewContainer.classList.add("previewContainer");
-    let img = document.createElement("img");
-    img.src = catsIdFetched[i].url;
-    img.alt = catsIdFetched[i].name;
-    img.classList.add("previewCat");
-    img.addEventListener("click", deleteCat);
-    document.body.append(previewContainer);
-    previewContainer.append(img);
-  }
-}
 
-function whichCatsHaveBeenFetched(cat, forDelete = false) {
-  if (!forDelete) {
-    catsIdFetched.push(cat);
-  } else {
-    catsIdFetched = catsIdFetched.filter(
-      (catObj) => catObj.id !== cat.id
+    let img = createStyledElement("img", "previewCat");
+    let deleteIcon = createStyledElement(
+      "span",
+      "previewDelete",
+      "X"
     );
-  }
-  loopAndRender();
-}
 
-function makeItRandom() {
-  return Math.floor(Math.random() * randomBreed.length);
+    img.src = list[i].url;
+    img.alt = list[i].name;
+
+    document.body.append(container);
+    previewContainer.append(container);
+    document.body.append(previewContainer);
+
+    container.append(deleteIcon);
+    container.append(img);
+
+    deleteIcon.addEventListener("click", async (e) => {
+      e.stopPropagation();
+      await deleteCat(e);
+    });
+  }
 }
 
 async function deleteCat(e) {
   e.preventDefault();
   e.stopPropagation();
 
+  const elementClicked = e.target;
+  const parentElement = elementClicked.parentElement;
+  const previousSibling = parentElement.previousElementSibling;
+  const nextSibling = parentElement.nextElementSibling;
+
+  if (previousSibling === null && nextSibling === null) {
+    previewContainer.remove();
+  }
+
+  catIdToDelete = parentElement
+    .querySelector("img")
+    .src.split("/")
+    .pop()
+    .split(".")[0];
+
   try {
     const response = await fetch(
-      `http://localhost:3001/api/cats/${catId}`,
+      `http://localhost:3001/api/cats/${catIdToDelete}`,
       {
         method: "DELETE",
       }
     );
 
+    const data = await response.json();
+
+    const {
+      image: { id },
+    } = data[0];
+
     if (response.status === 200) {
       cats--;
-      whichCatsHaveBeenFetched(catId, true);
-
-      loopAndRender();
+      catsIdFetched = whichCatsHaveBeenFetched(
+        catsIdFetched,
+        id,
+        true
+      );
 
       showAToast("Cat deleted", "success");
-
-      await getCat(e);
+      loopAndRender(
+        whichCatsHaveBeenFetched(catsIdFetched, id, true)
+      );
     } else {
       showAToast("Cat not deleted", "error");
     }
   } catch (error) {
     console.error("Error:", error);
     showAToast("Cat not deleted", "error");
+  } finally {
+    //refresh the cat id.
+    catIdToDelete = "";
   }
 }
 
@@ -103,23 +142,25 @@ async function getCat(e) {
 
   console.log("RES: ", data);
 
-  const { image, name, description, nickName } = data[0];
-
-  whichCatsHaveBeenFetched(image);
+  const { image: cat, name, description, nickName } = data[0];
 
   title.textContent = nickName ? nickName : name;
 
   descr.textContent = description;
   catCard.prepend(title, descr);
 
-  catId = image.id;
+  catId = cat.id;
 
-  catPic.src = image.url;
+  catPic.src = cat.url;
 
-  //if the cats gotten is greater than one then the user can delete.
-  if (cats > 0) {
-    deleteBtn.style.display = "inline";
-  }
+  catCard.append(addToCollection);
+
+  //push the newly fetched cat to the array.
+  catsIdFetched.push(cat);
+
+  addToCollection.addEventListener("click", () => {
+    loopAndRender(whichCatsHaveBeenFetched(catsIdFetched, cat));
+  });
 }
 
 saveBtn.addEventListener("click", function () {
@@ -132,7 +173,9 @@ saveBtn.addEventListener("click", function () {
   title.removeEventListener("click", titleClickHandler);
 });
 
-form.addEventListener("submit", getCat);
+form.addEventListener("submit", async (e) => {
+  await getCat(e);
+});
 
 function makeEditable(h1Id, buttonId) {
   let h1 = document.querySelector("h2");
@@ -177,8 +220,6 @@ function makeEditable(h1Id, buttonId) {
     }
   });
 }
-
-deleteBtn.addEventListener("click", deleteCat);
 
 makeEditable("editable1", "save");
 
