@@ -117,7 +117,8 @@ router.delete("/cats/:id", (req, res) => {
         if (persistedCat[0]["image"]["id"] === id) {
           fs.unlinkSync(`./cats/${file}`);
           found = true;
-          return res.status(200).json({ message: "Cat deleted" });
+
+          return res.status(200).json(persistedCat);
         }
       });
 
