@@ -6,6 +6,7 @@ const router = Router();
 /**
  * GET /api/cats/:breed
  * @param req.params.breed - the breed of the cat
+ * @returns 200 - the cat data
  */
 router.get("/cats/:breed", (req, res) => {
   const { breed } = req.params;
@@ -67,8 +68,15 @@ router.get("/cats/:breed", (req, res) => {
   checkForBreed(res);
 });
 
+/**
+ * PUT /api/cats/:id
+ * @param req.params.id - the id of the cat
+ * @param req.body.name - the nickname of the cat
+ * @returns 200 - the updated cat
+ * @returns 404 - if the cat is not found
+ */
+
 router.put("/cats/:id", (req, res) => {
-  console.log("REQ BODY:", req.body);
   const { id } = req.params;
   const { name } = req.body; // nickname
 
@@ -100,6 +108,13 @@ router.put("/cats/:id", (req, res) => {
     }
   });
 });
+
+/**
+ * DELETE /api/cats/:id
+ * @param req.params.id - the id of the cat
+ * @returns 200 - the deleted cat
+ * @returns 404 - if the cat is not found
+ */
 
 router.delete("/cats/:id", (req, res) => {
   const { id } = req.params;
