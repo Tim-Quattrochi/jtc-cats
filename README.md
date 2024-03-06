@@ -1,171 +1,110 @@
-Kirn Kim - squrkidev@gmail.com (github handle: squrki)
-Brandon Landry:
-email - sirjava@gmail.com
-github - hotpocket
-
-# W2D2-Assignment-FS-S24-Fullstack-JS-with-Node.JS-and-Express
-
 # Assignment: Building a RESTful API with Node.js and Express
 
 ## Summary
 
-In this hands-on assignment, you'll apply your knowledge of full-stack development, JavaScript for the backend (Node.js), and the Express.js framework to build a RESTful API. Instead of using MongoDB, you'll use JSON files for data storage.
+This project demonstrates the implementation of a RESTful API using Node.js and Express. The Express server acts as a middle API, handling CRUD requests from the frontend and persisting data obtained from [The Cat API]. The server fetches random cat images from The Cat API, saves the fetched data in JSON files for persistent storage, and defines API endpoints for cat image operations. Additionally, a simple frontend is created to interact with the Express server API, allowing users to view random cats, give the cat a nickname, saving cats to their collection, and delete cat images.
 
-## Objectives
+### Table of Contents
 
-- Apply Full-stack Development Concepts:
-  - Utilize both frontend and backend skills to create a comprehensive solution.
-  - Demonstrate an understanding of the importance of full-stack development in modern web applications.
-- Implement RESTful API with Node.js and Express:
-  - Use Node.js as the runtime environment for server-side JavaScript.
-  - Apply Express.js to build a web application framework for creating RESTful APIs.
-  - Utilize JSON files for data storage.
-- Fetch Cat Images from The Cat API:
-  - Utilize The Cat API to fetch random cat images.
-  - Store fetched cat image data in JSON files for persistent storage.
-- Design and Implement API Endpoints:
-  - Define clear and concise API endpoints for managing cat images.
-  - Implement CRUD (Create, Read, Update, Delete) operations for cat image resources.
-- Client-Server Communication:
-  - Enable effective communication between clients and the server through the API.
-  - Implement features that allow clients to interact with the API endpoints.
-- Testing and Documentation:
-  - Test your API using tools like Postman to ensure functionality.
-  - Provide clear documentation for your API, including endpoints, request/response formats, and any authentication mechanisms.
-- Client Interaction:
-  - Create a simple frontend (using HTML, CSS, and client-side JavaScript) to interact with your API.
-  - Showcase how the client can communicate with the server through the implemented API.
-- Reflection:
-  - Reflect on the challenges faced during the development process.
-  - Consider improvements or additional features that could enhance the Cat Image API.
+---
 
-## Instructions
+1. [Development](#development)
+2. [Server ENV Variables](#server-environment-variables)
+3. [Starting up the App](#starting-up-the-app)
+4. [Tech Stack](#tech-stack)
+5. [Features](#features)
+6. [Testing](#testing)
 
-1. Setup Environment:
+---
 
-   - Ensure Node.js and npm (Node Package Manager) are installed on your development environment.
-   - Obtain an API key from [The Cat API](https://thecatapi.com/) for fetching cat images.
+### Development
 
-2. Initialize Project:
+JTC Cats requires [Node.js](https://nodejs.org/) v16+ to run. Tested on version `v20.11.0`
 
-   - Create a new Node.js project and set up the necessary dependencies, including Express.js and Axios (for making HTTP requests to The Cat API).
+This App uses [NPM](https://www.npmjs.com/) Node Package Manager to manage its dependencies and packages.
 
-3. Define API Endpoints:
+Install the client dependencies by running the following command in the client directory:
 
-   - Identify the resources your API will manage, focusing on cat images.
-   - Define API endpoints for CRUD operations related to cat images.
+```
+npm install
+```
 
-4. Fetch and Save Cat Images:
+Install the server dependencies by running the following command in the server directory:
 
-   - Implement functionality to fetch random cat images from The Cat API.
-   - Save the fetched cat images to JSON files for persistent storage.
+```
+npm install
+```
 
-5. Implement CRUD Operations:
+### Server environment variables
 
-   - Write the necessary code to implement Create, Read, Update, and Delete operations for cat image endpoints.
+---
 
-6. Testing and Documentation:
+Get a free API key from [The Cat API]. Create a .env file in the server directory and add your API key.
 
-   - Test your API using tools like Postman to ensure functionality.
-   - Provide clear documentation for your API, including endpoints, request/response formats, and any necessary authentication mechanisms.
+For example:
 
-7. Client Interaction:
+```
+CAT_API_KEY=YOUR_API_KEY
+```
 
-   - Create a simple frontend (using HTML, CSS, and client-side JavaScript) to interact with your API.
-   - Showcase how the client can perform operations such as viewing all cat images, adding a new cat image, updating existing cat images, and deleting cat images.
+### Starting up the App
 
-8. Reflection:
-   - Reflect on the challenges faced during the development process.
-   - Consider improvements or additional features that could enhance the Cat Image API.
+---
 
-## Submission Instructions
+The Client and Server both need to be started separately with command:
 
-1. Organize Your Project:
+```
+npm start
+```
 
-   - Organize your assignment files, including code, documentation, and any additional resources, into a well-structured directory.
+This will start your `client` on `http://127.0.0.1:8080/` and backend in development mode on `http://localhost:3001/`, with the server listening on `PORT` 3001.
 
-2. Initialize Git Repository:
+## Features
 
-   - Initialize a Git repository in your project directory using the command `git init`.
+- View a random cat breed.
+- Add a cat to your collection.
+- Edit a cat's nickname.
+- Delete a cat from your collection.
+- Persistent storage to enable faster loading of cat images.
 
-3. Add and Commit Files:
+## Tech Stack
 
-   - Add your assignment files to the Git repository using `git add .` to stage all files and `git commit -m "Initial commit"` to commit them.
+### **Front-end**
 
-4. Create a GitHub Repository:
+- [JavaScript] - is a programming language that adds interactivity to your website.
 
-   - Create a new repository on GitHub to host your assignment files. You can do this through the GitHub website.
+- [HTML] - is the standard markup language for documents designed to be displayed in a web browser.
 
-5. Add Remote Repository:
+- [CSS] - is a style sheet language used for describing the presentation of a document written in HTML.
 
-   - Add the GitHub repository as a remote to your local Git repository using `git remote add origin <repository-url>`.
+- [http-server] - is a simple, zero-configuration command-line static HTTP server. It is powerful enough for production usage, but it's simple and hackable enough to be used for testing, local development and learning..
 
-6. Push to GitHub:
+- [Jest] - Jest is a delightful JavaScript Testing Framework with a focus on simplicity.
 
-   - Push your commits to the GitHub repository using `git push -u origin master`.
+- [jsdom] - is a pure-JavaScript implementation of many web standards, notably the WHATWG DOM and HTML Standards, for use with Node.js. In general, the goal of the project is to emulate enough of a subset of a web browser to be useful for testing.
 
-7. Verify Submission:
-   - Verify that your assignment files are successfully uploaded to your GitHub repository by checking the repository on the GitHub website.
+### **Back-end**
 
-## Test Cases
+---
 
-### Frontend Test Cases
+- [Node.js] - Cross-platform, open-source server environment that can run on Windows, Linux, Unix, macOS, and more. Node.js is a backend JavaScript runtime environment that runs on the V8 JavaScript Engine and executes JavaScript code outside a web browser.
 
-1. View All Cat Images:
+- [Express] - Express.js, or simply Express, is a backend web application framework for building RESTful APIs with Node.js
 
-   - Test that the frontend displays all cat images retrieved from the backend.
-   - Verify that each cat image is properly rendered with its corresponding information.
+- [The Cat API] - The Cat API is a free web service providing random pictures of cats in different categories.
 
-2. Add a New Cat Image:
+### **Testing**
 
-   - Enter valid data into the form fields for adding a new cat image.
-   - Submit the form and verify that the new cat image appears in the frontend list.
-   - Check that the added cat image matches the data entered in the form.
+---
 
-3. Update an Existing Cat Image:
+Testing your application is very important to ensure it is running as expected and as a user would interact with it without breaking and encountering bugs. I have set up [Jest] in the client, and there is a `tests` directory in the `client` directory. Simply running `npm test` from the client directory will run all the test files. I have includes some basic tests for the helper functions in the `client/src/client/utils` directory.
 
-   - Select an existing cat image from the frontend list.
-   - Edit the information of the selected cat image.
-   - Submit the changes and ensure that the updated information reflects correctly in the frontend.
-
-4. Delete a Cat Image:
-   - Select a cat image from the frontend list to delete.
-   - Confirm the deletion action and verify that the cat image disappears from the frontend list.
-   - Ensure that the deleted cat image is no longer accessible in the frontend.
-
-### Backend Test Cases
-
-1. Fetch Random Cat Images from The Cat API:
-
-   - Make a request to the backend API endpoint responsible for fetching random cat images.
-   - Verify that the response contains valid cat image data retrieved from The Cat API.
-   - Check that the fetched cat images are properly processed and stored in the backend.
-
-2. Save Cat Images to JSON Files:
-
-   - Confirm that when new cat images are fetched, they are correctly saved to the JSON file.
-   - Manually inspect the JSON file to ensure that the saved cat image data matches the fetched data.
-
-3. CRUD Operations:
-
-   - Create Test:
-     - Send a request to create a new cat image with valid data.
-     - Verify that the new cat image is properly stored in the backend and assigned a unique identifier.
-   - Read Test:
-     - Retrieve all cat images from the backend using the appropriate API endpoint.
-     - Ensure that the response contains a list of all stored cat images.
-   - Update Test:
-     - Select an existing cat image and send a request to update its information.
-     - Verify that the updated information is correctly reflected in the backend storage.
-   - Delete Test:
-     - Choose a cat image to delete and send a request to remove it from the backend.
-     - Confirm that the deleted cat image is no longer present in the backend storage.
-
-4. API Endpoint Testing:
-
-   - Test each API endpoint using tools like Postman or automated testing frameworks.
-   - Ensure that the endpoints handle various scenarios such as invalid requests, missing parameters, and authentication errors appropriately.
-
-5. Error Handling:
-   - Test error scenarios such as invalid requests, server errors, and data validation failures.
-   - Verify that the backend API returns appropriate error responses with relevant error codes and messages.
+[JavaScript]: https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/JavaScript_basics
+[http-server]: https://www.npmjs.com/package/http-server
+[Jest]: https://jestjs.io/
+[CSS]: https://developer.mozilla.org/en-US/docs/Web/CSS
+[HTML]: https://developer.mozilla.org/en-US/docs/Web/HTML
+[jsdom]: https://github.com/jsdom/jsdom
+[node.js]: http://nodejs.org
+[The Cat API]: https://thecatapi.com/
+[express]: http://expressjs.com
