@@ -25,6 +25,7 @@ const addToCollection = createStyledElement(
 
 let input,
   catId,
+  changed = false,
   catIdToDelete = [],
   cats = 0;
 
@@ -156,9 +157,11 @@ async function getCat(e) {
   catCard.append(addToCollection);
 
   //push the newly fetched cat to the array.
+
   catsIdFetched.push(cat);
 
-  addToCollection.addEventListener("click", () => {
+  addToCollection.addEventListener("click", async (e) => {
+    showAToast("Cat added to collection.", "success");
     loopAndRender(whichCatsHaveBeenFetched(catsIdFetched, cat));
   });
 }
@@ -224,7 +227,10 @@ function makeEditable(h1Id, buttonId) {
 makeEditable("editable1", "save");
 
 //first load.
-showAToast("Click 'Get a cat' to get your first cat", "success");
+
+window.addEventListener("load", () =>
+  showAToast("Click 'Get a cat' to get your first cat", "success")
+);
 
 //The user first visits the site.
 //They are greeted with a "Get a cat" button.
