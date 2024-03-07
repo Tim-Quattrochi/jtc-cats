@@ -17,9 +17,14 @@ jobs:
       run: |
         cd server
         npm install
-        npm start &
-        sleep 5
+        npm start
+        # Add a command to wait for the server to start (e.g., using a sleep or wait-for script)
 
+  test:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
     - name: Install Client Dependencies and Start Client
       run: |
         cd client
