@@ -4,8 +4,9 @@
   "description": "# Assignment: Building a RESTful API with Node.js and Express",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --watch --watch-preserve-output server.js --watch-ignore '**/*.json'"
+    "start": "node server.js",
+    "start-dev": "node --watch --watch-preserve-output server.js --watch-ignore '**/*.json'"
+  },
   },
   "keywords": [],
   "author": "",
