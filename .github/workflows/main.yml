@@ -1,0 +1,26 @@
+name: JTC Cats Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Install Dependencies and Start Server
+      run: |
+        cd server
+        npm install
+        npm start &
+        sleep 5 # Allow the server to start before moving to the next steps
+
+    - name: Open New Terminal and Install Client Dependencies
+      run: |
+        gnome-terminal --working-directory=$PWD/client -- npm install
+        gnome-terminal --working-directory=$PWD/client -- npm start
